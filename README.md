@@ -10,6 +10,26 @@ A project template for structuring FastAPI apps like a Django project — modula
 - [`alembic`](https://alembic.sqlalchemy.org/) for database migrations
 - Built-in support for [`pre-commit`](https://pre-commit.com/)
 
+## 🧠 Layered Architecture
+
+> 🔗 Inspired by [HackSoft’s Django Styleguide](https://github.com/HackSoftware/Django-Styleguide-Example) — adapted to FastAPI.
+
+```
+[ API Layer (views.py) ]
+    ↓
+[ Service / Selector Layer ]
+    ↓
+[ Repository Layer (optional) ]
+    ↓
+[ Models / Database ]
+```
+
+- **`selectors.py`** – Read-focused business logic using repository functions.
+- **`services.py`** – Write-focused logic and coordination using repositories.
+- **`repository.py`** – Pure DB access. No business logic.
+
+> ✅ You can skip `repository.py` for smaller projects and keep logic directly in `services`/`selectors`.
+
 ## 📁 Folder Structure
 
 ```
@@ -69,25 +89,6 @@ Each subapp in `apps/` (e.g. `hello_world`, `voting`) follows this common struct
 
 This modular structure ensures separation of concerns, testability, and scalability.
 
-## 🧠 Layered Architecture
-
-> 🔗 Inspired by [HackSoft’s Django Styleguide](https://github.com/HackSoftware/Django-Styleguide-Example) — adapted to FastAPI.
-
-```
-[ API Layer (views.py) ]
-    ↓
-[ Service / Selector Layer ]
-    ↓
-[ Repository Layer (optional) ]
-    ↓
-[ Models / Database ]
-```
-
-- **`selectors.py`** – Read-focused business logic using repository functions.
-- **`services.py`** – Write-focused logic and coordination using repositories.
-- **`repository.py`** – Pure DB access. No business logic.
-
-> ✅ You can skip `repository.py` for smaller projects and keep logic directly in `services`/`selectors`.
 ---
 
 Feel free to fork this and adapt it for your team or project.
