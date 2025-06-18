@@ -7,7 +7,7 @@ A project template for structuring FastAPI apps like a Django project — modula
 - [✨ Features](#-features)
 - [🧠 Layered Architecture](#-layered-architecture)
 - [📁 Folder Structure](#-folder-structure)
-- [File Responsibilities](#file-responsibilities)
+- [🗂️ File Responsibilities](#file-responsibilities)
 - [🛠️ Installation](#️-installation)
 - [⚙️ Makefile Commands](#️-makefile-commands)
 - [🔧 Migrations with Alembic](#-migrations-with-alembic)
@@ -103,7 +103,7 @@ A project template for structuring FastAPI apps like a Django project — modula
 
 ```
 
-## File Responsibilities
+## 🗂️ File Responsibilities
 
 Each subapp in `apps/` (e.g. `hello_world`, `voting`) follows this common structure:
 
