@@ -63,7 +63,7 @@ poetry run pre-commit install
 Start the local server with:
 ```bash
 # at src/backend
-make run # (aka. poetry run )
+make run_dev # (aka. poetry run fastapi dev)
 ```
 
 ## 🧠 Layered Architecture
