@@ -2,6 +2,17 @@
 
 A project template for structuring FastAPI apps like a Django project — modular, scalable, and clean.
 
+## 📚 Table of Contents
+
+- [✨ Features](#-features)
+- [🧠 Layered Architecture](#-layered-architecture)
+- [📁 Folder Structure](#-folder-structure)
+- [File Responsibilities](#file-responsibilities)
+- [🛠️ Installation](#️-installation)
+- [⚙️ Makefile Commands](#️-makefile-commands)
+- [🔧 Migrations with Alembic](#-migrations-with-alembic)
+- [🐚 Interactive Shell](#-interactive-shell)
+- [🧪 Testing](#-testing)
 
 ## ✨ Features
 
@@ -14,63 +25,11 @@ A project template for structuring FastAPI apps like a Django project — modula
 - IPython shell (`make shell`) similar to Django's shell
 - Developer-friendly `Makefile` commands for common tasks
 
-## 🛠️ Installation
-
-> This project uses **Python 3.13**, but you can change to any version you prefer.
-
-### 🔧 Install Poetry
-
-If you don't have Poetry, install it using the [official instructions](https://python-poetry.org/docs/#installation). For most systems, this works:
-
-**MacOS/Linux:**
-
-```bash
-curl -sSL https://install.python-poetry.org | python3.13 -
-```
-You may need to restart your shell or manually add Poetry to your PATH. Add the following to your .bashrc, .zshrc, or equivalent:
-
-```bash
-export PATH="$HOME/.local/bin:$PATH"
-```
-Then restart your terminal and verify it works:
-
-```bash
-poetry --version
-```
-
-To run python commands in poetry environment, just append `poetry run` before everything:
-```bash
-poetry run python
-poetry run pip list
-poetry run pip install
-# and so on...
-```
-
-#### With poetry, when adding new python package, instead of pip just do:
-```bash
-# at src/backend, same dir as pyproject.toml
-poetry add <package-name> # e.g. poetry add alembic
-
-# this will update poetry.lock, commit this file to version control too
-```
-
-#### You can also install pre-commit hooks (come with black, isort, flake8)
-```bash
-poetry run pre-commit install
-```
-
-### Test Run
-Start the local server with:
-```bash
-# at src/backend
-make run_dev # (aka. poetry run fastapi dev)
-```
-
 ## 🧠 Layered Architecture
 
 > 🔗 Inspired by [HackSoft’s Django Styleguide](https://github.com/HackSoftware/Django-Styleguide-Example) — adapted to FastAPI.
 
-```
+```shell
 [ API Layer (views.py) ]
     ↓
 [ Service / Selector Layer ]
@@ -143,6 +102,7 @@ make run_dev # (aka. poetry run fastapi dev)
 └── tox.ini
 
 ```
+
 ## File Responsibilities
 
 Each subapp in `apps/` (e.g. `hello_world`, `voting`) follows this common structure:
@@ -156,6 +116,62 @@ Each subapp in `apps/` (e.g. `hello_world`, `voting`) follows this common struct
 
 This modular structure ensures separation of concerns, testability, and scalability.
 
+## 🛠️ Installation
+
+> This project uses **Python 3.13**, but you can change to any version you prefer.
+
+### 🔧 Install Poetry
+
+If you don't have Poetry, install it using the [official instructions](https://python-poetry.org/docs/#installation). For most systems, this works:
+
+**MacOS/Linux:**
+
+```bash
+curl -sSL https://install.python-poetry.org | python3.13 -
+```
+
+You may need to restart your shell or manually add Poetry to your PATH. Add the following to your .bashrc, .zshrc, or equivalent:
+
+```bash
+export PATH="$HOME/.local/bin:$PATH"
+```
+
+Then restart your terminal and verify it works:
+
+```bash
+poetry --version
+```
+
+To run python commands in poetry environment, just append `poetry run` before everything:
+
+```bash
+poetry run python
+poetry run pip list
+poetry run pip install
+# and so on...
+```
+
+#### With poetry, when adding new python package, instead of pip just do:
+```bash
+# at src/backend, same dir as pyproject.toml
+poetry add <package-name> # e.g. poetry add alembic
+
+# this will update poetry.lock, commit this file to version control too
+```
+
+#### You can also install pre-commit hooks (come with black, isort, flake8)
+```bash
+poetry run pre-commit install
+```
+
+### Test Run
+
+Start the local server with:
+
+```bash
+# at src/backend
+make run_dev # (aka. poetry run fastapi dev)
+```
 
 ## ⚙️ Makefile Commands
 
@@ -206,8 +222,6 @@ Shell comes preloaded with:
 - arun(coro): run async functions
 
 - Your models (e.g., SomeModel, etc.)
-
-
 
 ## 🧪 Testing
 
