@@ -38,19 +38,32 @@ Then restart your terminal and verify it works:
 poetry --version
 ```
 
-#### To add new python package, instead of pip just do:
+To run python commands in poetry environment, just append `poetry run` before everything:
 ```bash
-# this will update poetry.lock, commit this file to version control too
-
-# at src/backend, same dir as pyproject.toml
-poetry add <package-name>
-
-# e.g poetry add alembic
+poetry run python
+poetry run pip list
+poetry run pip install
+# and so on...
 ```
 
-#### You can also install pre-commit hooks (come with black, isort, flak8)
+#### With poetry, when adding new python package, instead of pip just do:
+```bash
+# at src/backend, same dir as pyproject.toml
+poetry add <package-name> # e.g. poetry add alembic
+
+# this will update poetry.lock, commit this file to version control too
+```
+
+#### You can also install pre-commit hooks (come with black, isort, flake8)
 ```bash
 poetry run pre-commit install
+```
+
+### Test Run
+Start the local server with:
+```bash
+# at src/backend
+make run # (aka. poetry run )
 ```
 
 ## 🧠 Layered Architecture
@@ -171,15 +184,21 @@ To upgrade/downgrade
 # at src/backend/
 make upgrade_all
 ```
+For more commands, take a look at `Makefile`. Play around!
 
 ## 🐚 Interactive Shell
+*For those who love django shell*
 
+To start shell:
 ```bash
 # at src/backend/
 make shell
 ```
 
-Preloaded
+You can customize the behaviour by modifying `src/backend/scripts/shell.py`
+
+Shell comes preloaded with:
+
 - session: SQLModel sync session
 
 - async_session: async session factory
@@ -187,6 +206,8 @@ Preloaded
 - arun(coro): run async functions
 
 - Your models (e.g., SomeModel, etc.)
+
+
 
 ## 🧪 Testing
 
