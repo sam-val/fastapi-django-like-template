@@ -1,6 +1,10 @@
 # FastAPI Django-like Template
 
-A project template for structuring FastAPI apps like a Django project — modular, scalable, and clean.
+A project template for structuring (async) FastAPI apps like a Django project — modular, scalable, and clean.
+
+---
+
+Feel free to fork this and adapt it for your team or project.
 
 ## 📚 Table of Contents
 
@@ -32,18 +36,15 @@ A project template for structuring FastAPI apps like a Django project — modula
 ```shell
 [ API Layer (views.py) ]
     ↓
-[ Service / Selector Layer ]
+[ Service Layer ]
     ↓
-[ Repository Layer (optional) ]
+[ Repository Layer ]
     ↓
 [ Models / Database ]
 ```
 
-- **`selectors.py`** – Read-focused business logic using repository functions.
-- **`services.py`** – Write-focused logic and coordination using repositories.
+- **`services.py`** – Bussiness-focused logic and coordination using repositories.
 - **`repository.py`** – Pure DB access. No business logic.
-
-> ✅ You can skip `repository.py` for smaller projects and keep logic directly in `services`/`selectors`.
 
 ## 📁 Folder Structure
 
@@ -109,8 +110,7 @@ Each subapp in `apps/` (e.g. `hello_world`, `voting`) follows this common struct
 
 - **models.py** – Defines database models using SQLModel.
 - **schemas.py** – Defines request and response validation schemas (Pydantic models). Same as Django REST Framework serializers.
-- **selectors.py** – Read-only data access patterns (e.g. list filters, aggregations).
-- **services.py** – Business logic layer, combines repositories/selectors to implement use cases.
+- **services.py** – Business logic layer, using repositories to implement use cases.
 - **repository.py** (optional) – Low-level database queries. Used by Selectors & Services.
 - **apis/`<version>`/views.py** – HTTP route handlers for versioned APIs, similar to Django views.
 
@@ -152,6 +152,7 @@ poetry run pip install
 ```
 
 #### With poetry, when adding new python package, instead of pip just do:
+
 ```bash
 # at src/backend, same dir as pyproject.toml
 poetry add <package-name> # e.g. poetry add alembic
@@ -160,6 +161,7 @@ poetry add <package-name> # e.g. poetry add alembic
 ```
 
 #### You can also install pre-commit hooks (come with black, isort, flake8)
+
 ```bash
 poetry run pre-commit install
 ```
@@ -226,7 +228,3 @@ Shell comes preloaded with:
 ## 🧪 Testing
 
 To be added
-
----
-
-Feel free to fork this and adapt it for your team or project.
