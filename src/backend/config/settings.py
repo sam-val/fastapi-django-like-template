@@ -9,10 +9,11 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class ModeEnum(str, Enum):
+    testing = "testing"  # for pytest
+    local = "local"
     dev = "dev"
     uat = "uat"
-    production = "prod"
-    testing = "testing"
+    prod = "prod"
 
 
 class Settings(BaseSettings):

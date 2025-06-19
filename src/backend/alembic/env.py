@@ -5,9 +5,9 @@ from alembic import context
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlmodel import SQLModel
 
-from backend.apps.hello.models import *
-from backend.apps.world.models import *
-from backend.config.settings import settings
+from backend.apps.example2.models import *
+from backend.apps.example.models import *
+from backend.config.settings import get_settings
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
@@ -25,6 +25,7 @@ if config.config_file_name is not None:
 
 # target_metadata = None
 target_metadata = SQLModel.metadata
+settings = get_settings()
 db_url = str(settings.ASYNC_DATABASE_URI)
 
 # other values from the config, defined by the needs of env.py,

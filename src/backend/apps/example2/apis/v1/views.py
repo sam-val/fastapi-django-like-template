@@ -4,6 +4,6 @@ from fastapi.responses import JSONResponse
 router = APIRouter()
 
 
-@router.get("/world")
-def world():
+@router.get("/example2")
+def example2():
     return JSONResponse(content={"message": "World, hello!"})

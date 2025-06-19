@@ -1,69 +1,83 @@
 import asyncio
-import atexit
 
+import nest_asyncio
+from IPython.terminal.embed import InteractiveShellEmbed
 from sqlalchemy import NullPool
-from sqlalchemy.ext.asyncio import AsyncSession, create_async_engine
+from sqlalchemy.ext.asyncio import create_async_engine
 from sqlalchemy.orm import sessionmaker
-from sqlmodel import Session
+from sqlmodel.ext.asyncio.session import AsyncSession
+from traitlets.config import Config
 
-# Import your all models
-from backend.apps.hello.models import *
-from backend.config.db import engine  # import from your db module
-from backend.config.settings import settings
+from backend.apps.example.models import *
+from backend.apps.example.repository import *
+from backend.apps.example.services import *
 
-# Sync session
-session = Session(engine)
+# App-specific imports (services, models, etc.)
+from backend.config.settings import get_settings
 
-# Ensure sync session is closed when the script exits
-atexit.register(session.close)
+# ---------------------------
+# Async setup
+# ---------------------------
 
+# Load app settings (e.g. DB URL, debug mode)
+settings = get_settings()
+
+# Create async engine for SQLModel
 async_engine = create_async_engine(
     url=str(settings.ASYNC_DATABASE_URI),
     echo=settings.DEBUG,
     poolclass=NullPool,
 )
 
+# Async session factory (like Django’s connection/session)
 async_session = sessionmaker(
     bind=async_engine,
     class_=AsyncSession,
     expire_on_commit=False,
 )
 
+# Patch the event loop so we can re-enter it (IPython already has one running)
+nest_asyncio.apply()
 
-# Helper to run async code
-def arun(coro):
-    return asyncio.run(coro)
+# ---------------------------
+# IPython shell logic
+# ---------------------------
 
-
-# Shell banner
+# Shell banner message
 banner = """
-FastAPI Shell — SQLModel (sync + async)
+🚀 FastAPI Shell — SQLModel (async)
 Available:
-- session              : sync SQLModel Session
-- async_session_factory: async session factory (use `async with async_session_factory() as s`)
-- arun(coro)           : helper to run awaitables in sync shell
-- All models from our apps
+- session              : active AsyncSession
+- async_session        : session factory (for manual `async with`)
+- Imported all models/services from backend.apps.example.*
 """
 
 
-def main():
-    # Start shell
-    try:
-        from IPython import embed
+# Async entrypoint — ensures session context is active throughout shell
+async def start_shell():
+    async with async_session() as session:
+        # Configure IPython shell with autoawait and asyncio loop
+        config = Config()
+        config.TerminalInteractiveShell.autoawait = True
+        config.TerminalInteractiveShell.loop_runner = "asyncio"
 
-        embed(
-            banner1=banner,
+        shell = InteractiveShellEmbed(config=config, banner1=banner)
+
+        # Start IPython with a preloaded namespace
+        shell(
+            user_ns={
+                "session": session,
+                "async_session": async_session,
+                # Add common service classes or helpers here if desired
+            }
         )
-    except ImportError:
-        import code
 
-        code.interact(local=locals(), banner=banner)
-    finally:
-        # close sync session
-        session.close()
 
-        # close async session
-        try:
-            arun(async_engine.dispose())
-        except Exception as e:
-            print("Warning: Failed to dispose async engine:", e)
+# Synchronous entrypoint for poetry/CLI
+def main():
+    asyncio.run(start_shell())
+
+
+# Run the shell
+if __name__ == "__main__":
+    main()
