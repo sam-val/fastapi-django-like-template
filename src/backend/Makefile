@@ -49,6 +49,9 @@ test:
 
 	poetry run pytest --no-migrations -q -rx -k ${k} ${path}
 
+test_all:
+	poetry run pytest -q -rx .
+
 test_verbose:
 	poetry run pytest --no-migrations -v -rx -k ${k} ${path}
 

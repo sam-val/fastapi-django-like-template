@@ -4,7 +4,7 @@ from functools import lru_cache
 from typing import Any, List, Optional
 
 from pydantic import Field, PostgresDsn, field_validator
-from pydantic_core.core_schema import FieldValidationInfo
+from pydantic_core.core_schema import ValidationInfo
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -35,6 +35,13 @@ class Settings(BaseSettings):
     DATABASE_PORT: int
     DATABASE_NAME: str
 
+    # test db
+    TEST_DATABASE_USER: Optional[str] = None
+    TEST_DATABASE_PASSWORD: Optional[str] = None
+    TEST_DATABASE_HOST: Optional[str] = None
+    TEST_DATABASE_PORT: Optional[int] = None
+    TEST_DATABASE_NAME: Optional[str] = None
+
     DATABASE_URI: PostgresDsn | str = ""
     ASYNC_DATABASE_URI: PostgresDsn | str = ""
 
@@ -45,7 +52,7 @@ class Settings(BaseSettings):
     # e.g. rate_limit_per_minute: int = 30
 
     @field_validator("DATABASE_URI", mode="after")
-    def assemble_sync_db(cls, v: str | None, info: FieldValidationInfo) -> Any:
+    def assemble_sync_db(cls, v: str | None, info: ValidationInfo) -> Any:
         if isinstance(v, str):
             if v == "":
                 return PostgresDsn.build(
@@ -59,9 +66,22 @@ class Settings(BaseSettings):
         return v
 
     @field_validator("ASYNC_DATABASE_URI", mode="after")
-    def assemble_async_db(cls, v: str | None, info: FieldValidationInfo) -> Any:
+    def assemble_async_db(cls, v: str | None, info: ValidationInfo) -> Any:
         if isinstance(v, str):
             if v == "":
+                mode = info.data.get("MODE")
+                print("mode: ", mode)
+                print(info.data)
+                if mode == ModeEnum.testing:
+                    return PostgresDsn.build(
+                        scheme="postgresql+asyncpg",
+                        username=info.data["TEST_DATABASE_USER"],
+                        password=info.data["TEST_DATABASE_PASSWORD"],
+                        host=info.data["TEST_DATABASE_HOST"],
+                        port=info.data["TEST_DATABASE_PORT"],
+                        path=info.data["TEST_DATABASE_NAME"],
+                    )
+
                 return PostgresDsn.build(
                     scheme="postgresql+asyncpg",
                     username=info.data["DATABASE_USER"],
