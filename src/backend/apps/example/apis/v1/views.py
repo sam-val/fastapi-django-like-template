@@ -10,7 +10,7 @@ from backend.apps.example.schemas import (
     SomeModelRead,
     SomeModelUpdate,
 )
-from backend.apps.example.services import SomeModelService
+from backend.apps.example.services.core_service import SomeModelService
 from backend.common.schemas.enums import OrderEnum
 from backend.common.schemas.response import StandardResponse
 from backend.config.db import get_session

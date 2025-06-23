@@ -9,8 +9,8 @@ from sqlmodel.ext.asyncio.session import AsyncSession
 from traitlets.config import Config
 
 from backend.apps.example.models import *
-from backend.apps.example.repository import *
-from backend.apps.example.services import *
+from backend.apps.example.repositories.somemodel_repo import *
+from backend.apps.example.services.core_service import *
 
 # App-specific imports (services, models, etc.)
 from backend.config.settings import get_settings

@@ -9,6 +9,8 @@ run_dev:
 
 # db
 migrations:
+	# Examples:
+	# >>> make migrations msg="'test'"
 	poetry run alembic revision --autogenerate -m ${msg}
 
 upgrade:

@@ -5,8 +5,8 @@ from alembic import context
 from sqlalchemy.ext.asyncio import create_async_engine
 from sqlmodel import SQLModel
 
-from backend.apps.example2.models import *
 from backend.apps.example.models import *
+from backend.apps.example_app.models import *
 from backend.config.settings import get_settings
 
 # this is the Alembic Config object, which provides

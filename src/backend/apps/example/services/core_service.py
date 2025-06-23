@@ -8,7 +8,7 @@ from fastapi_pagination import Page, Params
 from sqlmodel.ext.asyncio.session import AsyncSession
 
 from backend.apps.example.models import SomeModel
-from backend.apps.example.repository import SomeModelRepo
+from backend.apps.example.repositories import SomeModelRepo
 from backend.apps.example.schemas import (
     SomeModelCreate,
     SomeModelDelete,
