@@ -49,56 +49,76 @@ Feel free to fork this and adapt it for your team or project.
 ## 📁 Folder Structure
 
 ```
+├── Makefile
 ├── README.md
+├── alembic
+│   ├── README
+│   ├── env.py
+│   ├── script.py.mako
+│   └── versions
+│       └── 7235dcd2cce6_example_migration_file_alembic.py
+├── alembic.ini
+├── api
+│   ├── exceptions.py
+│   ├── pagination.py
+│   └── urls.py
+├── apps
+│   ├── example
+│   │   ├── apis
+│   │   │   ├── v1
+│   │   │   │   └── views.py
+│   │   │   └── v2
+│   │   │       └── views.py
+│   │   ├── models
+│   │   │   └── somemodel.py
+│   │   ├── repositories
+│   │   │   └── somemodel_repo.py
+│   │   ├── schemas
+│   │   │   └── somemodel_schema.py
+│   │   ├── services
+│   │   │   └── core_service.py
+│   │   └── tests
+│   │       ├── api
+│   │       │   └── test_api_v1.py
+│   │       ├── factories.py
+│   │       ├── test_repositories.py
+│   │       └── test_services.py
+│   └── example_app
+│       ├── apis
+│       │   └── v1
+│       │       └── views.py
+│       ├── models
+│       ├── repositories
+│       ├── services
+│       │   └── core_service.py
+│       └── tests
+│           ├── api
+│           │   └── test_api_v1.py
+│           ├── factories.py
+│           ├── test_repositories.py
+│           └── test_services.py
+├── common
+│   ├── mixins
+│   │   └── models.py
+│   ├── repository
+│   │   └── base.py
+│   ├── schemas
+│   │   ├── enums.py
+│   │   └── response.py
+│   ├── tests
+│   │   └── test_repository.py
+│   └── utils
+├── config
+│   ├── db.py
+│   ├── settings.py
+│   └── urls.py
+├── conftest.py
+├── main.py
 ├── poetry.lock
 ├── pyproject.toml
-├── src
-│   └── backend
-│       ├── Makefile
-│       ├── alembic
-│       │   ├── README
-│       │   ├── env.py
-│       │   ├── script.py.mako
-│       │   └── versions
-│       │       └── 7235dcd2cce6_example_migration_file_alembic.py
-│       ├── alembic.ini
-│       ├── api
-│       │   ├── exceptions.py
-│       │   ├── pagination.py
-│       │   └── urls.py
-│       ├── apps
-│       │   ├── hello
-│       │   │   ├── apis
-│       │   │   │   ├── v1
-│       │   │   │   │   └── views.py
-│       │   │   │   └── v2
-│       │   │   │       └── views.py
-│       │   │   ├── models.py
-│       │   │   ├── repository.py
-│       │   │   ├── schemas.py
-│       │   │   ├── selectors.py
-│       │   │   ├── services.py
-│       │   │   └── tests
-│       │   └── world
-│       │       ├── apis
-│       │       │   └── v1
-│       │       │       └── views.py
-│       │       ├── models.py
-│       │       ├── repository.py
-│       │       ├── schemas.py
-│       │       ├── selectors.py
-│       │       ├── services.py
-│       │       └── tests
-│       ├── common
-│       │   └── mixins
-│       │       └── models.py
-│       ├── config
-│       │   ├── db.py
-│       │   ├── settings.py
-│       │   └── urls.py
-│       ├── main.py
-│       └── scripts
-│           └── shell.py
+├── pytest.ini
+├── scripts
+│   └── shell.py
 ├── tests
 └── tox.ini
 
