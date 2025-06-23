@@ -3,7 +3,7 @@ name = "fastapi-django-like-template"
 version = "0.0.1"
 description = ""
 authors = [
-    {name = "sam-val",email = "ineptcode@gmail.com"}
+    {name = "sam-val",email = "code@samval.dev"}
 ]
 readme = "README.md"
 requires-python = ">=3.13,<4.0"
@@ -26,8 +26,8 @@ dependencies = [
     "pytest-asyncio (>=1.0.0,<2.0.0)",
 ]
 
-[tool.poetry]
-packages = [{include = "backend", from = "src"}]
+[[tool.poetry.packages]]
+include = "scripts"
  
 [tool.poetry.scripts]
 shell = "scripts.shell:main"
