@@ -23,6 +23,10 @@ class SomeModelService:
         self.session = session
         self.repo = SomeModelRepo(session=session)
 
+    @property
+    def model(self) -> SomeModel:
+        return self.repo.model
+
     async def create_a_model(
         self,
         payload: SomeModelCreate,
