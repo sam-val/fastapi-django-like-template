@@ -28,6 +28,8 @@ class Settings(BaseSettings):
     MODE: ModeEnum = ModeEnum.dev
 
     # database
+    ASYNC_SQLITE_URI: Optional[str] = ""
+
     # parts of async DB URI
     DATABASE_USER: str
     DATABASE_PASSWORD: str
@@ -90,6 +92,17 @@ class Settings(BaseSettings):
                     port=info.data["DATABASE_PORT"],
                     path=info.data["DATABASE_NAME"],
                 )
+        return v
+
+    @field_validator("ASYNC_SQLITE_URI", mode="after")
+    def assemble_test_db(cls, v: str | None, info: ValidationInfo) -> Any:
+        # we uses 2 testing db, one for dev one for unittest
+        mode = info.data.get("MODE")
+        if v == "":
+            if mode == ModeEnum.testing:
+                return "sqlite+aiosqlite:///./unittest.db"
+            return "sqlite+aiosqlite:///./test.db"
+
         return v
 
     model_config = SettingsConfigDict(
