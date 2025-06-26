@@ -191,8 +191,8 @@ poetry run pre-commit install
 Start the local server with:
 
 ```bash
-# at src/backend
-make run_dev # (aka. poetry run fastapi dev)
+make run_dev
+# (aka. poetry run fastapi dev)
 ```
 
 ## ⚙️ Makefile Commands
@@ -209,31 +209,35 @@ test                # Run tests with pytest
 ```
 
 ## 🔧 Migrations with Alembic
+
 Alembic is preconfigured with SQLModel support.
 
 To create a migration files:
+
 ```bash
-# at src/backend/
 make migrations msg="add SomeModel"
 ```
 
 To upgrade/downgrade
+
 ```bash
-# at src/backend/
 make upgrade_all
 ```
+
 For more commands, take a look at `Makefile`. Play around!
 
 ## 🐚 Interactive Shell
-*For those who love django shell*
+
+### For those who love django shell
 
 To start shell:
+
 ```bash
 # at src/backend/
 make shell
 ```
 
-You can customize the behaviour by modifying `src/backend/scripts/shell.py`
+You can customize the behaviour by modifying `scripts/shell.py`
 
 Shell comes preloaded with:
 
@@ -245,6 +249,12 @@ Shell comes preloaded with:
 
 - Your models (e.g., SomeModel, etc.)
 
-## 🧪 Testing
+## 🧪 Unittesting
 
-To be added
+We're using `pytest` for running tests, `factory-boy` for factories.
+
+To run all tests
+
+```bash
+make test_all
+```
