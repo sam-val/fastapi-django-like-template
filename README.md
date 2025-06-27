@@ -17,7 +17,7 @@ Feel free to fork this and adapt it for your team or project.
 - [⚙️ Makefile Commands](#️-makefile-commands)
 - [🔧 Migrations with Alembic](#-migrations-with-alembic)
 - [🐚 Interactive Shell](#-interactive-shell)
-- [🧪 Testing](#-unittesting)
+- [🧪 Unit Testing](#-unittesting)
 
 ## ✨ Features
 
