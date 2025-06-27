@@ -142,12 +142,19 @@ This modular structure ensures separation of concerns, testability, and scalabil
 
 ## Server Quick Start
 
+#### Prerequisites
+
+- `docker compose`
+- `make` (for Makefile support)
+
 To quickly start the server locally with [Docker Compose](#https://docs.docker.com/compose/install/):
 
 ```bash
+# up server, this will create docker images & containers
 make compose
-# or
-docker compose up -d
+
+# down server,
+make compose_down
 ```
 
 Otherwise continue with [installation](#️-installation) below.
@@ -161,7 +168,6 @@ Otherwise continue with [installation](#️-installation) below.
 - Python `3.13`
 - [`Poetry`](https://python-poetry.org/docs/#installation)
 - `make` (for Makefile support)
-
 
 > This project uses **Python 3.13**, but you can change to any version you prefer.
 
@@ -197,7 +203,7 @@ poetry run pip install
 #### With poetry, when adding new python package, instead of pip just do:
 
 ```bash
-# at src/backend, same dir as pyproject.toml
+# same dir as pyproject.toml
 poetry add <package-name> # e.g. poetry add alembic
 
 # this will update poetry.lock, commit this file to version control too
@@ -209,7 +215,7 @@ poetry add <package-name> # e.g. poetry add alembic
 poetry run pre-commit install
 ```
 
-### Test Run
+### Test Run Server
 
 #### Migrations
 
@@ -222,7 +228,7 @@ make downgrade
 
 #### Populate environment variables
 
-Remember to populate environment variables file `.env`.
+Remember to create & populate environment variables file `.env`.
 Check out example file at `.env.example`
 
 #### Run local server
