@@ -16,6 +16,8 @@ services:
     volumes:
       - .:/code
     environment:
+      MODE: dev
+      DEBUG: True
       REDIS_URI: redis://redis:6379
       DATABASE_USER: postgres
       DATABASE_PASSWORD: postgres

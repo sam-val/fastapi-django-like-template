@@ -29,7 +29,6 @@ RUN poetry install --no-interaction --no-root
 
 # Copy files
 COPY . .
-COPY .env .env
 
 # Run the app with uvicorn
 CMD ["poetry", "run", "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
