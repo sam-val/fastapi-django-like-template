@@ -12,6 +12,7 @@ services:
       - "8000:8000"
     depends_on:
       - postgres
+      - postgres-unittest
       - redis
     volumes:
       - .:/code
@@ -24,6 +25,11 @@ services:
       DATABASE_HOST: postgres
       DATABASE_PORT: 5432
       DATABASE_NAME: postgres_db
+      TEST_DATABASE_USER: postgres_test
+      TEST_DATABASE_PASSWORD: postgres_test
+      TEST_DATABASE_HOST: postgres-unittest
+      TEST_DATABASE_PORT: 5432
+      TEST_DATABASE_NAME: unittest_postgres_db
     command: >
       bash -c "make upgrade_all &&
               poetry run uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
@@ -40,6 +46,17 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5433:5432"
+
+  postgres-unittest:
+    image: postgres:17-alpine
+    container_name: fastapi-django-postgres-test
+    restart: always
+    environment:
+      POSTGRES_USER: postgres_test
+      POSTGRES_PASSWORD: postgres_test
+      POSTGRES_DB: unittest_postgres_db
+    ports:
+      - "5434:5432"
 
   redis:
     image: redis:8-alpine

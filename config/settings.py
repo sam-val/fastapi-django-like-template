@@ -41,9 +41,9 @@ class Settings(BaseSettings):
     # test db
     TEST_DATABASE_USER: str = ""
     TEST_DATABASE_PASSWORD: str = ""
-    TEST_DATABASE_HOST: str = "localhost"
+    TEST_DATABASE_HOST: str = ""
     TEST_DATABASE_PORT: int = 5432
-    TEST_DATABASE_NAME: str = "test_postgres"
+    TEST_DATABASE_NAME: str = ""
 
     DATABASE_URI: PostgresDsn | str = ""
     ASYNC_DATABASE_URI: PostgresDsn | str = ""
