@@ -51,7 +51,7 @@ class Settings(BaseSettings):
     # redis
     REDIS_URI: RedisDsn | str = ""
     REDIS_HOST: str = "localhost"
-    REDIS_PORT: str = "6379"
+    REDIS_PORT: int = 6379
     REDIS_PATH: str = "/0"
 
     # Add more custom settings as needed
@@ -63,9 +63,9 @@ class Settings(BaseSettings):
             if v == "":
                 return RedisDsn.build(
                     scheme="redis",
-                    host=info.data["REDIS_HOST"],
-                    port=info.data["REDIS_PORT"],
-                    path=info.data["REDIS_PATH"],
+                    host=info.data.get("REDIS_HOST", "localhost"),
+                    port=info.data.get("REDIS_PORT", 6379),
+                    path=info.data.get("REDIS_PATH", "/0"),
                 )
         return v
 

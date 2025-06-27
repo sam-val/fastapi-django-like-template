@@ -12,6 +12,7 @@ Feel free to fork this and adapt it for your team or project.
 - [🧠 Layered Architecture](#-layered-architecture)
 - [📁 Folder Structure](#-folder-structure)
 - [🗂️ File Responsibilities](#file-responsibilities)
+- [🚀 Server QuickStart](#server-quick-start)
 - [🛠️ Installation](#️-installation)
 - [⚙️ Makefile Commands](#️-makefile-commands)
 - [🔧 Migrations with Alembic](#-migrations-with-alembic)
@@ -50,6 +51,7 @@ Feel free to fork this and adapt it for your team or project.
 
 ```shell
 .
+├── Dockerfile
 ├── Makefile
 ├── README.md
 ├── alembic
@@ -115,6 +117,7 @@ Feel free to fork this and adapt it for your team or project.
 │   ├── settings.py
 │   └── urls.py
 ├── conftest.py
+├── docker-compose.yml
 ├── main.py
 ├── poetry.lock
 ├── pyproject.toml
@@ -137,11 +140,30 @@ Each subapp in `apps/` (e.g. `hello_world`, `voting`) follows this common struct
 
 This modular structure ensures separation of concerns, testability, and scalability.
 
+## Server Quick Start
+
+To quickly start the server locally with [Docker Compose](#https://docs.docker.com/compose/install/):
+
+```bash
+make compose
+# or
+docker compose up -d
+```
+
+Otherwise continue with [installation](#️-installation) below.
+
 ## 🛠️ Installation
 
-> This project uses **Python 3.13**, but you can change to any version you prefer.
-
 ### 🔧 Install Poetry
+
+#### Prerequisites
+
+- Python `3.13`
+- [`Poetry`](https://python-poetry.org/docs/#installation)
+- `make` (for Makefile support)
+
+
+> This project uses **Python 3.13**, but you can change to any version you prefer.
 
 If you don't have Poetry, install it using the [official instructions](https://python-poetry.org/docs/#installation). For most systems, this works:
 
@@ -188,6 +210,22 @@ poetry run pre-commit install
 ```
 
 ### Test Run
+
+#### Migrations
+
+Do migration (upgrade/downgrade) with:
+
+```bash
+make uprade
+make downgrade
+```
+
+#### Populate environment variables
+
+Remember to populate environment variables file `.env`.
+Check out example file at `.env.example`
+
+#### Run local server
 
 Start the local server with:
 

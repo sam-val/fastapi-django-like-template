@@ -1,0 +1,52 @@
+version: "3.9"
+
+name: fastapi-django
+
+services:
+  fastaspi:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: fastapi
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - postgres
+      - redis
+    volumes:
+      - .:/code
+    environment:
+      REDIS_URI: redis://redis:6379
+      DATABASE_USER: postgres
+      DATABASE_PASSWORD: postgres
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+      DATABASE_NAME: postgres_db
+    command: >
+      bash -c "make upgrade_all &&
+              poetry run uvicorn main:app --host 0.0.0.0 --port 8000 --reload"
+
+  postgres:
+    image: postgres:17-alpine
+    container_name: fastapi-django-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres_db
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5433:5432"
+
+  redis:
+    image: redis:8-alpine
+    container_name: fastapi-django-redis
+    restart: always
+    ports:
+      - "6378:6379"
+
+volumes:
+  postgres_data:

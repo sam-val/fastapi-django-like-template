@@ -5,7 +5,7 @@ from config.settings import get_settings
 settings = get_settings()
 
 redis_client = async_redis.Redis.from_url(
-    url=settings.REDIS_URI,
+    url=str(settings.REDIS_URI),
     decode_responses=True,  # makes Redis return strings instead of bytes
 )
 

@@ -7,6 +7,15 @@ shell:
 run_dev:
 	poetry run fastapi dev 
 
+uvicorn:
+	poetry run uvicorn main:app --host 0.0.0.0 --port 8000
+
+compose:
+	docker compose up -d
+
+compose_down:
+	docker compose down
+
 # db
 migrations:
 	# Examples:
@@ -61,3 +70,5 @@ test_subapp_with_coverage:
         # >>> make test_subapp_with_coverage k=backend/app2/
 
 	pytest --no-migrations -v -rx -k ${k} ${path} --cov=${k}
+
+
