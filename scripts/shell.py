@@ -11,6 +11,7 @@ from traitlets.config import Config
 from apps.example.models import *
 from apps.example.repositories.somemodel_repo import *
 from apps.example.services.core_service import *
+from config.redis import *
 
 # App-specific imports (services, models, etc.)
 from config.settings import get_settings

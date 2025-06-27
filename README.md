@@ -48,7 +48,8 @@ Feel free to fork this and adapt it for your team or project.
 
 ## 📁 Folder Structure
 
-```
+```shell
+.
 ├── Makefile
 ├── README.md
 ├── alembic
@@ -110,6 +111,7 @@ Feel free to fork this and adapt it for your team or project.
 │   └── utils
 ├── config
 │   ├── db.py
+│   ├── redis.py
 │   ├── settings.py
 │   └── urls.py
 ├── conftest.py
@@ -119,7 +121,6 @@ Feel free to fork this and adapt it for your team or project.
 ├── pytest.ini
 ├── scripts
 │   └── shell.py
-├── tests
 └── tox.ini
 
 ```

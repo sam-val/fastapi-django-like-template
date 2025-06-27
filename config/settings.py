@@ -1,9 +1,10 @@
 import os
 from enum import Enum
 from functools import lru_cache
-from typing import Any, List, Optional
+from typing import Any, List
 
-from pydantic import Field, PostgresDsn, field_validator
+import redis.asyncio as redis
+from pydantic import Field, PostgresDsn, RedisDsn, field_validator
 from pydantic_core.core_schema import ValidationInfo
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
@@ -28,30 +29,45 @@ class Settings(BaseSettings):
     MODE: ModeEnum = ModeEnum.dev
 
     # database
-    ASYNC_SQLITE_URI: Optional[str] = ""
+    ASYNC_SQLITE_URI: str = ""
 
-    # parts of async DB URI
-    DATABASE_USER: str
-    DATABASE_PASSWORD: str
-    DATABASE_HOST: str
-    DATABASE_PORT: int
-    DATABASE_NAME: str
+    # assume postgres as default
+    DATABASE_USER: str = ""
+    DATABASE_PASSWORD: str = ""
+    DATABASE_HOST: str = "localhost"
+    DATABASE_PORT: int = 5432
+    DATABASE_NAME: str = "postgres"
 
     # test db
-    TEST_DATABASE_USER: Optional[str] = None
-    TEST_DATABASE_PASSWORD: Optional[str] = None
-    TEST_DATABASE_HOST: Optional[str] = None
-    TEST_DATABASE_PORT: Optional[int] = None
-    TEST_DATABASE_NAME: Optional[str] = None
+    TEST_DATABASE_USER: str = ""
+    TEST_DATABASE_PASSWORD: str = ""
+    TEST_DATABASE_HOST: str = "localhost"
+    TEST_DATABASE_PORT: int = 5432
+    TEST_DATABASE_NAME: str = "test_postgres"
 
     DATABASE_URI: PostgresDsn | str = ""
     ASYNC_DATABASE_URI: PostgresDsn | str = ""
 
     # redis
-    REDIS_URI: Optional[str] = None
+    REDIS_URI: RedisDsn | str = ""
+    REDIS_HOST: str = "localhost"
+    REDIS_PORT: str = "6379"
+    REDIS_PATH: str = "/0"
 
     # Add more custom settings as needed
     # e.g. rate_limit_per_minute: int = 30
+
+    @field_validator("REDIS_URI", mode="after")
+    def assemble_redis_uri(cls, v: str | None, info: ValidationInfo) -> Any:
+        if isinstance(v, str):
+            if v == "":
+                return RedisDsn.build(
+                    scheme="redis",
+                    host=info.data["REDIS_HOST"],
+                    port=info.data["REDIS_PORT"],
+                    path=info.data["REDIS_PATH"],
+                )
+        return v
 
     @field_validator("DATABASE_URI", mode="after")
     def assemble_sync_db(cls, v: str | None, info: ValidationInfo) -> Any:
@@ -72,8 +88,6 @@ class Settings(BaseSettings):
         if isinstance(v, str):
             if v == "":
                 mode = info.data.get("MODE")
-                print("mode: ", mode)
-                print(info.data)
                 if mode == ModeEnum.testing:
                     return PostgresDsn.build(
                         scheme="postgresql+asyncpg",
@@ -92,7 +106,7 @@ class Settings(BaseSettings):
                     port=info.data["DATABASE_PORT"],
                     path=info.data["DATABASE_NAME"],
                 )
-        return v
+            return v
 
     @field_validator("ASYNC_SQLITE_URI", mode="after")
     def assemble_test_db(cls, v: str | None, info: ValidationInfo) -> Any:
