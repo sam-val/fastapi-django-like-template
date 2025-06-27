@@ -147,7 +147,7 @@ This modular structure ensures separation of concerns, testability, and scalabil
 - `docker compose`
 - `make` (for Makefile support)
 
-To quickly start the server locally with [Docker Compose](#https://docs.docker.com/compose/install/):
+To quickly start the server locally with [Docker Compose](https://docs.docker.com/compose/install/):
 
 ```bash
 # up server, this will create docker images & containers
