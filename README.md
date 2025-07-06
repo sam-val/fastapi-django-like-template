@@ -35,17 +35,50 @@ Feel free to fork this and adapt it for your team or project.
 > 🔗 Inspired by [HackSoft’s Django Styleguide](https://github.com/HackSoftware/Django-Styleguide-Example) — adapted to FastAPI.
 
 ```shell
-[ API Layer (views.py) ]
-    ↓
-[ Service Layer ]
-    ↓
-[ Repository Layer ]
-    ↓
-[ Models / Database ]
+
+        Request-Response Flow (User/API)
+                   │
+     [ API Layer (apis/*.py) ]
+                   │
+                   │ use
+                   ▼ 
+     [ Service Layer (services/*.py) ]
+                   │
+                   │ use
+                   ▼ 
+     [ Repository Layer (repositories/*.py) ]
+                   │
+                   │ use
+                   ▼ 
+         [ Models / Database ]
+
+────────────────────────────────────────────
+
+      ╭────────────────────────────╮
+      │      Usage Across App      │
+      │ (e.g. user/, chat/, etc.)  │
+      ╰────────────┬───────────────╯
+                   │
+     [ Interface Layer (interfaces/*.py) ]  ←←←←← Used for cross-app imports
+                   │
+                   │ use
+                   ▼ 
+     [ Service Layer (services/*.py) ]
+                   │
+                   │ use
+                   ▼ 
+     [ Repository Layer (repositories/*.py) ]
+                   │
+                   │ use
+                   ▼ 
+         [ Models / Database ]
+
 ```
 
-- **`services.py`** – Bussiness-focused logic and coordination using repositories.
-- **`repository.py`** – Pure DB access. No business logic.
+- **`services/*.py`** – Bussiness-focused logic and coordination using repositories.
+- **`repositories/*.py`** – Pure DB access. No business logic.
+
+- **`interfaces/*.py`** – Public entrypoints for other subapps. Keeps boundaries clean and prepares for future microservice separation.
 
 ## 📁 Folder Structure
 
@@ -72,6 +105,8 @@ Feel free to fork this and adapt it for your team or project.
 │   │   │   │   └── views.py
 │   │   │   └── v2
 │   │   │       └── views.py
+│   │   ├── interfaces
+│   │   │   └── core.py
 │   │   ├── models
 │   │   │   └── somemodel.py
 │   │   ├── repositories
@@ -90,6 +125,8 @@ Feel free to fork this and adapt it for your team or project.
 │       ├── apis
 │       │   └── v1
 │       │       └── views.py
+│       ├── interfaces
+│       │   └── core.py
 │       ├── models
 │       ├── repositories
 │       ├── services
@@ -118,6 +155,7 @@ Feel free to fork this and adapt it for your team or project.
 │   └── urls.py
 ├── conftest.py
 ├── docker-compose.yml
+├── initdb
 ├── main.py
 ├── poetry.lock
 ├── pyproject.toml
@@ -130,13 +168,15 @@ Feel free to fork this and adapt it for your team or project.
 
 ## 🗂️ File Responsibilities
 
-Each subapp in `apps/` (e.g. `hello_world`, `voting`) follows this common structure:
+Each subapp in `apps/` (e.g. `user`, `chat`) follows this common structure:
 
-- **models.py** – Defines database models using SQLModel.
-- **schemas.py** – Defines request and response validation schemas (Pydantic models). Same as Django REST Framework serializers.
-- **services.py** – Business logic layer, using repositories to implement use cases.
-- **repository.py** (optional) – Low-level database queries. Used by Selectors & Services.
+- **models/*.py** – Defines database models using SQLModel.
+- **schemas/*.py** – Defines request and response validation schemas (Pydantic models). Same as Django REST Framework serializers.
+- **services/*.py** – Business logic layer, using repositories to implement use cases.
+- **repositores/*.py** (optional) – Low-level database queries. Used by Selectors & Services.
 - **apis/`<version>`/views.py** – HTTP route handlers for versioned APIs, similar to Django views.
+- **interfaces/*.py** – When *other services/subapps* import any logic from a subapp, they import these files. Super useful when separating into microservices later.
+
 
 This modular structure ensures separation of concerns, testability, and scalability.
 
