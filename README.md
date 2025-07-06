@@ -55,24 +55,23 @@ Feel free to fork this and adapt it for your team or project.
 ────────────────────────────────────────────
 
       ╭────────────────────────────╮
-      │      Usage Across App      │
-      │ (e.g. user/, chat/, etc.)  │
+      │      Cross-App Usage       │
+      │  (e.g. user/, chat/, etc.) │
       ╰────────────┬───────────────╯
                    │
-     [ Interface Layer (interfaces/*.py) ]  ←←←←← Used for cross-app imports
+     [ Interface Layer (interfaces/*.py) ]  ◄── Used by other subapps
                    │
                    │ use
-                   ▼ 
-     [ Service Layer (services/*.py) ]
+                   ▼
+     [ Service Layer (services/*.py) ]      ◄── Business logic
                    │
                    │ use
-                   ▼ 
-     [ Repository Layer (repositories/*.py) ]
+                   ▼
+ [ Repository Layer (repositories/*.py) ]    ◄── DB access only
                    │
                    │ use
-                   ▼ 
+                   ▼
          [ Models / Database ]
-
 ```
 
 - **`services/*.py`** – Bussiness-focused logic and coordination using repositories.
